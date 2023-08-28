@@ -11,7 +11,7 @@ class WilayahRepository {
       values: [kodeWilayah, namaWilayah, tingkatWilayah],
     };
     await this._pool.query(query);
-    console.log('add wilayah success +1');
+    // console.log(`Berhasil menambahkan wilayah => Kode: ${kodeWilayah}, nama: ${namaWilayah}, tingkat: ${tingkatWilayah}`);
   }
 }
 

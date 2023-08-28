@@ -5,9 +5,15 @@ class HasilPemiluTpsRepository {
     this._pool = pool;
   }
 
-  async addHasilPemiluTps(
-    idPemilu, kodeWilayah, namaTps, pemilihTerdaftar, penggunaHakPilih, jmlSuaraSah, jmlSuaraTdkSah,
-  ) {
+  async addHasilPemiluTps({
+    idPemilu,
+    kodeWilayah,
+    namaTps,
+    pemilihTerdaftar,
+    penggunaHakPilih,
+    jmlSuaraSah,
+    jmlSuaraTdkSah,
+  }) {
     const query = {
       sql: `INSERT INTO hasil_pemilu_tps(
           pemilu_id, 
@@ -22,6 +28,15 @@ class HasilPemiluTpsRepository {
     };
     await this._pool.query(query);
     console.log('berhasil menambahkan data hasil_pemilu_tps +1');
+  }
+
+  async getIdHasilPemiluTpsByKodeWilayahAndNamaTps({ kodeWilayah, namaTps }) {
+    const query = {
+      sql: `SELECT id FROM hasil_pemilu_tps WHERE kode_wilayah=? AND no_tps = ?`,
+      values: [kodeWilayah, namaTps],
+    };
+    const [result] = await this._pool.query(query);
+    return result[0];
   }
 };
 
