@@ -1,12 +1,13 @@
+/* eslint-disable camelcase */
 /* api service */
-const FetchApiWilayah = require('./services/api/FetchApiWilayah');
-const FetchApiPilpres = require('./services/api/FetchApiPilpres');
+const FetchApiWilayah = require('../src/services/api/FetchApiWilayah');
+const FetchApiPilpres = require('../src/services/api/FetchApiPilpres');
 
 /* database service */
-const WilayahRepository = require('./services/database/WilayahRepository');
-const WilayahDataRepository = require('./services/database/WilayahDataRepository');
-const HasilPemiluTpsRepository = require('./services/database/HasilPemiluTpsRepository');
-const HasilPemiluCapresRepository = require('./services/database/HasilPemiluCapresRepository');
+const WilayahRepository = require('../src/services/database/WilayahRepository');
+const WilayahDataRepository = require('../src/services/database/WilayahDataRepository');
+const HasilPemiluTpsRepository = require('../src/services/database/HasilPemiluTpsRepository');
+const HasilPemiluCapresRepository = require('../src/services/database/HasilPemiluCapresRepository');
 
 /* create instance */
 const fetchApiWilayah = new FetchApiWilayah();
@@ -103,5 +104,6 @@ const init = async () => {
     }
   }
 };
+
 
 init();

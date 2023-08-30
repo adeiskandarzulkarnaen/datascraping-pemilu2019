@@ -1,0 +1,149 @@
+/* api service */
+const FetchApiWilayah = require('../src//services/api/FetchApiWilayah');
+const FetchApiPilpres = require('../src/services/api/FetchApiPilpres');
+
+/* database service */
+const HasilPemiluTpsRepository = require('../src//services/database/HasilPemiluTpsRepository');
+const HasilPemiluCapresRepository = require('../src/services/database/HasilPemiluCapresRepository');
+
+/* create instance */
+const fetchApiWilayah = new FetchApiWilayah();
+const fetchApiPilpres = new FetchApiPilpres();
+const hasilPemiluTpsRepository = new HasilPemiluTpsRepository();
+const hasilPemiluCapresRepository = new HasilPemiluCapresRepository();
+
+
+const init = async ({ provinsiId, kabupatenId }) => {
+  /* loop kabupaten di provinsi-i */
+  const daftarKabupaten = await fetchApiWilayah.getDataWilayah(`${provinsiId}`);
+  if (daftarKabupaten.hasOwnProperty(kabupatenId)) {
+    /* looping kecamatan di kabupaten-i*/
+    const daftarKecamatan = await fetchApiWilayah.getDataWilayah(`${provinsiId}/${kabupatenId}`);
+
+    for (kecamatanId in daftarKecamatan) {
+      if (daftarKecamatan.hasOwnProperty(kecamatanId)) {
+        /* looping kelurahan di kecamatan-i */
+        const daftarKelurahan = await fetchApiWilayah.getDataWilayah(`${provinsiId}/${kabupatenId}/${kecamatanId}`);
+
+        for (kelurahanId in daftarKelurahan) {
+          if (daftarKelurahan.hasOwnProperty(kelurahanId)) {
+            /* looping tps di kelurahan-i */
+            const daftarTps = await fetchApiWilayah.getDataWilayah(`${provinsiId}/${kabupatenId}/${kecamatanId}/${kelurahanId}`);
+
+            for (tpsId in daftarTps) {
+              if (daftarTps.hasOwnProperty(tpsId)) {
+                const hasilPemiluTps = await fetchApiPilpres.getHasilPilpres('hhcw', `${provinsiId}/${kabupatenId}/${kecamatanId}/${kelurahanId}/${tpsId}`);
+
+                /* log detail */
+                // console.log(hasilPemiluTps);
+
+                await hasilPemiluTpsRepository.addHasilPemiluTps({
+                  id: tpsId,
+                  idPemilu: 1,
+                  kodeWilayah: `${provinsiId}.${kabupatenId}.${kecamatanId}.${kelurahanId}`,
+                  namaTps: daftarTps[tpsId].nama,
+                  pemilihTerdaftar: hasilPemiluTps['pemilih_j'],
+                  penggunaHakPilih: hasilPemiluTps['pengguna_j'],
+                  jmlSuaraSah: hasilPemiluTps['suara_sah'],
+                  jmlSuaraTdkSah: hasilPemiluTps['suara_tidak_sah'],
+                });
+
+                for (key in hasilPemiluTps.chart) {
+                  if (hasilPemiluTps.chart.hasOwnProperty(key)) {
+                    await hasilPemiluCapresRepository.addHasilPemiluCapres({
+                      idHasilPemiluTps: tpsId,
+                      idPemiluCapres: key,
+                      jumlahSuaraSah: hasilPemiluTps.chart[key],
+                    });
+                  }
+                }
+
+                /* loging */
+                console.log(
+                  'Berhasil menambahkan data:',
+                  'kab.', daftarKabupaten[kabupatenId].nama,
+                  '- kec.', daftarKecamatan[kecamatanId].nama,
+                  '- kel.', daftarKelurahan[kelurahanId].nama,
+                  '-', daftarTps[tpsId].nama,
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    console.log(`DATA KAB. ${daftarKabupaten[kabupatenId].nama} BERHASIL DITAMBAHKAN`);
+  }
+};
+
+
+const main = async () => {
+  /* ini */
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '32547', // kota cimahi
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '32375', // kota cirebon
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '32472', // kota depok
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '32152', // kota sukabumi
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '32566', // kota TASIKMALAYA
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '28960', // KUNINGAN
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '29834', // MAJALENGKA
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '927964', // PANGANDARAN
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '31135', // Purwakarta
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '30851', // SUBANG
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '26611', // Sukabumi
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '30197', // SUMEDANG
+  });
+
+  await init({
+    provinsiId: '26141',
+    kabupatenId: '28182', // tasikmalaya
+  });
+};
+
+main();

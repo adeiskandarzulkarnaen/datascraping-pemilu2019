@@ -19,7 +19,7 @@ class FetchApiWilayah {
       return data;
     } catch (error) {
       console.log(`terjadi kesalahan: ${kodeLokasi}`);
-      console.log(error.message);
+      console.log(error);
     }
   }
 };

@@ -20,8 +20,8 @@ class FetchApiPilpres {
    * Gunakan 'hr' untuk Hasil Rekapitulasi; // () => hanya sampai tingkat kelurahan
    * Gunakan 'ds' untuk Data Sengketa;
    * Gunakan 'ph' untuk Penetapan Hasil;
-   */
-  /* Parameter kodeLokasi :
+   *
+  /* Parameter kodeLokasi
    * untuk detail provinsi => 'kodeProvinsi'
    * untuk detail kabupaten => 'kodeProvinsi/kodeKabupaten'
    * untuk detail kecamatan => 'kodeProvinsi/kodeKabupaten/kodeKecamatan'
@@ -30,18 +30,26 @@ class FetchApiPilpres {
    */
 
   async getHasilPilpres(typeHasil, kodeLokasi=null) {
-    try {
-      this._typeHasilValidator(typeHasil);
-      if (!kodeLokasi) {
-        const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp.json`);
+    this._typeHasilValidator(typeHasil);
+
+    const maxRetries = 10;
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        if (!kodeLokasi) {
+          const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp.json`);
+          return data;
+        }
+        /* return data baseon location */
+        const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp/${kodeLokasi}.json`);
         return data;
+      } catch (error) {
+        console.log('terjadi kesalahan: ', kodeLokasi);
+        console.log('request failed:', error.message);
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // delay in ms
+        console.log('reconnect...');
       }
-      const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp/${kodeLokasi}.json`);
-      return data;
-    } catch (error) {
-      console.log(`terjadi kesalahan: ${kodeLokasi}`);
-      console.log(error.message);
     }
+    throw new Error('Max retries reached, unable to fetch data.');
   }
 
   _typeHasilValidator(typeHasil) {

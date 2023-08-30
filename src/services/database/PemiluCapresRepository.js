@@ -5,14 +5,13 @@ class PemiluCapresRepository {
     this._pool = pool;
   }
 
-  async addPemiluCapres(idPemilu, noUrut, namaCapres, namaWakilCapres) {
+  async addPemiluCapres({ id=null, idPemilu, noUrut, namaCapres, namaWakilCapres }) {
     const query = {
-      sql: `INSERT INTO pemilu_capres(pemilu_id, no_urut, calon_presiden, wakil_presiden) 
-        VALUES(?, ?, ?, ?)`,
-      values: [idPemilu, noUrut, namaCapres, namaWakilCapres],
+      sql: `INSERT INTO pemilu_capres(id, pemilu_id, no_urut, calon_presiden, wakil_presiden) 
+        VALUES(?, ?, ?, ?, ?)`,
+      values: [id, idPemilu, noUrut, namaCapres, namaWakilCapres],
     };
     await this._pool.query(query);
-    console.log('berhasil menambahkan data cawapres +1');
   }
 }
 
