@@ -1,3 +1,6 @@
+const axios = require('axios');
+const pool = require('../src/config/pool');
+
 /* api service */
 const FetchApiWilayah = require('../src/services/api/FetchApiWilayah');
 const FetchApiPilpres = require('../src/services/api/FetchApiPilpres');
@@ -7,10 +10,11 @@ const HasilPemiluTpsRepository = require('../src/services/database/HasilPemiluTp
 const HasilPemiluCapresRepository = require('../src/services/database/HasilPemiluCapresRepository');
 
 /* create instance */
-const fetchApiWilayah = new FetchApiWilayah();
-const fetchApiPilpres = new FetchApiPilpres();
-const hasilPemiluTpsRepository = new HasilPemiluTpsRepository();
-const hasilPemiluCapresRepository = new HasilPemiluCapresRepository();
+const fetchApiWilayah = new FetchApiWilayah(axios);
+const fetchApiPilpres = new FetchApiPilpres(axios);
+
+const hasilPemiluTpsRepository = new HasilPemiluTpsRepository(pool);
+const hasilPemiluCapresRepository = new HasilPemiluCapresRepository(pool);
 
 
 const init = async ({ provinsiId }) => {

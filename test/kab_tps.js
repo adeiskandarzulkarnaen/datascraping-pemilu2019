@@ -1,3 +1,6 @@
+const axios = require('axios');
+const pool = require('../src/config/pool');
+
 /* api service */
 const FetchApiWilayah = require('../src//services/api/FetchApiWilayah');
 const FetchApiPilpres = require('../src/services/api/FetchApiPilpres');
@@ -7,10 +10,11 @@ const HasilPemiluTpsRepository = require('../src//services/database/HasilPemiluT
 const HasilPemiluCapresRepository = require('../src/services/database/HasilPemiluCapresRepository');
 
 /* create instance */
-const fetchApiWilayah = new FetchApiWilayah();
-const fetchApiPilpres = new FetchApiPilpres();
-const hasilPemiluTpsRepository = new HasilPemiluTpsRepository();
-const hasilPemiluCapresRepository = new HasilPemiluCapresRepository();
+const fetchApiWilayah = new FetchApiWilayah(axios);
+const fetchApiPilpres = new FetchApiPilpres(axios);
+
+const hasilPemiluTpsRepository = new HasilPemiluTpsRepository(pool);
+const hasilPemiluCapresRepository = new HasilPemiluCapresRepository(pool);
 
 
 const init = async ({ provinsiId, kabupatenId }) => {
@@ -79,70 +83,9 @@ const init = async ({ provinsiId, kabupatenId }) => {
 
 
 const main = async () => {
-  /* ini */
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '32547', // kota cimahi
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '32375', // kota cirebon
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '32472', // kota depok
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '32152', // kota sukabumi
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '32566', // kota TASIKMALAYA
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '28960', // KUNINGAN
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '29834', // MAJALENGKA
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '927964', // PANGANDARAN
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '31135', // Purwakarta
-  });
-
   await init({
     provinsiId: '26141',
     kabupatenId: '30851', // SUBANG
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '26611', // Sukabumi
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '30197', // SUMEDANG
-  });
-
-  await init({
-    provinsiId: '26141',
-    kabupatenId: '28182', // tasikmalaya
   });
 };
 

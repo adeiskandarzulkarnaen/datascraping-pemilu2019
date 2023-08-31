@@ -1,7 +1,5 @@
-const axios = require('axios');
-
 class FetchApiPilegDpr {
-  constructor() {
+  constructor(axios) {
     this._axios = axios;
     this._baseUrl = 'https://pemilu2019.kpu.go.id/static/json';
   }

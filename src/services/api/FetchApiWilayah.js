@@ -1,7 +1,5 @@
-const axios = require('axios');
-
 class FetchApiWilayah {
-  constructor() {
+  constructor(axios) {
     this._axios = axios;
     this._baseUrl = 'https://pemilu2019.kpu.go.id/static/json';
   }
@@ -14,12 +12,18 @@ class FetchApiWilayah {
      * kecamatan = 'kodeProvinsi/kodeKabupaten/kodeKecamatan'
      * tps = 'kodeProvinsi/kodeKabupaten/kodeKecamatan/kodeTps'
      */
-    try {
-      const { data } = await this._axios.get(`${this._baseUrl}/wilayah/${kodeLokasi}.json`);
-      return data;
-    } catch (error) {
-      console.log(`terjadi kesalahan: ${kodeLokasi}`);
-      console.log(error);
+    let success;
+    while (!success) {
+      try {
+        const { data } = await this._axios.get(`${this._baseUrl}/wilayah/${kodeLokasi}.json`);
+        success = true;
+        return data;
+      } catch (error) {
+        console.error('Request failed:', error.message);
+        console.log('terjadi kesalahan: ', kodeLokasi);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log('retrying...');
+      }
     }
   }
 };

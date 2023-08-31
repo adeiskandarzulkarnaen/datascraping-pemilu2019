@@ -1,7 +1,6 @@
 const FetchApiPilpres = require('../services/api/FetchApiPilpres');
 const PemiluCapresRepository = require('../services/database/PemiluCapresRepository');
 
-
 const main = async () => {
   /* create insance */
   const fetchApiPilpres = new FetchApiPilpres();
@@ -24,7 +23,6 @@ const main = async () => {
         namaWakilCapres,
       });
 
-      // console.log(capresDanCawapresSplited);
       console.log(`Berhasil menambahkan (${cawapresId}): ${namaCapres} - ${namaWakilCapres}`);
     }
   }

@@ -1,3 +1,6 @@
+const axios = require('axios');
+const pool = require('./config/pool');
+
 /* api service */
 const FetchApiWilayah = require('./services/api/FetchApiWilayah');
 const FetchApiPilpres = require('./services/api/FetchApiPilpres');
@@ -9,12 +12,13 @@ const HasilPemiluTpsRepository = require('./services/database/HasilPemiluTpsRepo
 const HasilPemiluCapresRepository = require('./services/database/HasilPemiluCapresRepository');
 
 /* create instance */
-const fetchApiWilayah = new FetchApiWilayah();
-const fetchApiPilpres = new FetchApiPilpres();
-const wilayahRepository = new WilayahRepository();
-const wilayahDataRepository = new WilayahDataRepository();
-const hasilPemiluTpsRepository = new HasilPemiluTpsRepository();
-const hasilPemiluCapresRepository = new HasilPemiluCapresRepository();
+const fetchApiWilayah = new FetchApiWilayah(axios);
+const fetchApiPilpres = new FetchApiPilpres(axios);
+
+const wilayahRepository = new WilayahRepository(pool);
+const wilayahDataRepository = new WilayahDataRepository(pool);
+const hasilPemiluTpsRepository = new HasilPemiluTpsRepository(pool);
+const hasilPemiluCapresRepository = new HasilPemiluCapresRepository(pool);
 
 
 const init = async () => {

@@ -1,7 +1,5 @@
-const pool = require('../../config/pool');
-
 class HasilPemiluCapresRepository {
-  constructor() {
+  constructor(pool) {
     this._pool = pool;
   }
 

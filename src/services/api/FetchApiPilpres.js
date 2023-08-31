@@ -1,7 +1,5 @@
-const axios = require('axios');
-
 class FetchApiPilpres {
-  constructor() {
+  constructor(axios) {
     this._axios = axios;
     this._baseUrl = 'https://pemilu2019.kpu.go.id/static/json';
   }
@@ -15,41 +13,40 @@ class FetchApiPilpres {
     }
   }
 
-  /* Parameter typeHasil
-   * Gunakan 'hhcw' untuk Hitung Hasil Caleg Wilayah
-   * Gunakan 'hr' untuk Hasil Rekapitulasi; // () => hanya sampai tingkat kelurahan
-   * Gunakan 'ds' untuk Data Sengketa;
-   * Gunakan 'ph' untuk Penetapan Hasil;
-   *
-  /* Parameter kodeLokasi
-   * untuk detail provinsi => 'kodeProvinsi'
-   * untuk detail kabupaten => 'kodeProvinsi/kodeKabupaten'
-   * untuk detail kecamatan => 'kodeProvinsi/kodeKabupaten/kodeKecamatan'
-   * untuk detail kelurahan => 'kodeProvinsi/kodeKabupaten/kodeKelurahan'
-   * untul detail tps => 'kodeProvinsi/kodeKabupaten/kodeKecamatan/kodeTps'
-   */
-
   async getHasilPilpres(typeHasil, kodeLokasi=null) {
+  /* Parameter typeHasil
+    * Gunakan 'hhcw' untuk Hitung Hasil Caleg Wilayah
+    * Gunakan 'hr' untuk Hasil Rekapitulasi; // () => hanya sampai tingkat kelurahan
+    * Gunakan 'ds' untuk Data Sengketa;
+    * Gunakan 'ph' untuk Penetapan Hasil;
+    *
+    /* Parameter kodeLokasi
+    * default => return tingkat nasional
+    * untuk detail provinsi => 'kodeProvinsi'
+    * untuk detail kabupaten => 'kodeProvinsi/kodeKabupaten'
+    * untuk detail kecamatan => 'kodeProvinsi/kodeKabupaten/kodeKecamatan'
+    * untuk detail kelurahan => 'kodeProvinsi/kodeKabupaten/kodeKelurahan'
+    * untul detail tps => 'kodeProvinsi/kodeKabupaten/kodeKecamatan/kodeTps'
+    */
+
     this._typeHasilValidator(typeHasil);
 
-    const maxRetries = 10;
-    for (let i = 0; i < maxRetries; i++) {
+    let success;
+    while (!success) {
       try {
         if (!kodeLokasi) {
           const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp.json`);
           return data;
         }
-        /* return data baseon location */
         const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp/${kodeLokasi}.json`);
         return data;
       } catch (error) {
         console.log('terjadi kesalahan: ', kodeLokasi);
         console.log('request failed:', error.message);
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // delay in ms
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log('reconnect...');
       }
     }
-    throw new Error('Max retries reached, unable to fetch data.');
   }
 
   _typeHasilValidator(typeHasil) {
