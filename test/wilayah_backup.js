@@ -1,24 +1,18 @@
-/* eslint-disable camelcase */
-/* api service */
-const FetchApiWilayah = require('../services/api/FetchApiWilayah');
-const FetchApiPilpres = require('../services/api/FetchApiPilpres');
+const axios = require('axios');
+const pool = require('../config/pool');
 
-/* database service */
+/* service */
+const FetchApiWilayah = require('../services/api/FetchApiWilayah');
 const WilayahRepository = require('../services/database/WilayahRepository');
 const WilayahDataRepository = require('../services/database/WilayahDataRepository');
-const HasilPemiluTpsRepository = require('../services/database/HasilPemiluTpsRepository');
-const HasilPemiluCapresRepository = require('../services/database/HasilPemiluCapresRepository');
 
 /* create instance */
-const fetchApiWilayah = new FetchApiWilayah();
-const fetchApiPilpres = new FetchApiPilpres();
-const wilayahRepository = new WilayahRepository();
-const wilayahDataRepository = new WilayahDataRepository();
-const hasilPemiluTpsRepository = new HasilPemiluTpsRepository();
-const hasilPemiluCapresRepository = new HasilPemiluCapresRepository();
+const fetchApiWilayah = new FetchApiWilayah(axios);
+const wilayahRepository = new WilayahRepository(pool);
+const wilayahDataRepository = new WilayahDataRepository(pool);
 
 
-const init = async () => {
+const main = async () => {
   /* looping provinsi di indonesia */
   const daftarProvinsi = await fetchApiWilayah.getDataWilayah();
   for (provinsiId in daftarProvinsi) {
@@ -65,4 +59,4 @@ const init = async () => {
 };
 
 
-init();
+main();

@@ -20,7 +20,7 @@ const hasilPemiluCapresRepository = new HasilPemiluCapresRepository(pool);
 const init = async () => {
   const daftarProvinsi = await fetchApiWilayah.getDataWilayah();
   for (provinsiId in daftarProvinsi) {
-    if (daftarKabupaten.hasOwnProperty(provinsiId)) {
+    if (daftarProvinsi.hasOwnProperty(provinsiId)) {
       /* loop kabupaten di provinsi-i */
       const daftarKabupaten = await fetchApiWilayah.getDataWilayah(`${provinsiId}`);
       for (kabupatenId in daftarKabupaten) {
@@ -69,6 +69,7 @@ const init = async () => {
                       /* loging */
                       console.log(
                         'Berhasil menambahkan data:',
+                        'prov.', daftarProvinsi[provinsiId].nama,
                         'kab.', daftarKabupaten[kabupatenId].nama,
                         '- kec.', daftarKecamatan[kecamatanId].nama,
                         '- kel.', daftarKelurahan[kelurahanId].nama,
@@ -89,5 +90,4 @@ const init = async () => {
 };
 
 
-init({ provinsiId: 'id' });
-
+init();

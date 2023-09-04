@@ -19,8 +19,8 @@ class FetchApiWilayah {
         success = true;
         return data;
       } catch (error) {
-        console.error('Request failed:', error.message);
         console.log('terjadi kesalahan: ', kodeLokasi);
+        console.error('request failed:', error.message);
         await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log('retrying...');
       }

@@ -10,7 +10,6 @@ class HasilPemiluParpolRepository {
       values: [idHasilPemiluTps, idPemiluParpol, jumlahSuaraSah],
     };
     await this._pool.query(query);
-    console.log('berhasil menambahkan data hasil_pemilu_parpol +1');
   }
 };
 

@@ -1,5 +1,0 @@
-// const kabupatenId = '26141'; // Jawabarat
-// const kabupatenId = '27714'; // Garut
-// const kecamatanId = '27715'; // Garut Kota
-// const kelurahanId = '27718'; // Margawati
-// const kodeTps = '900228437'; // Tps 01
