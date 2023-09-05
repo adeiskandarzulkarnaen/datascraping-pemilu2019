@@ -3,15 +3,15 @@ const pool = require('../config/pool');
 
 /* api service */
 const FetchApiWilayah = require('../services/fetchapi/FetchApiWilayah');
-const FetchApiPilpres = require('../services/fetchapi/FetchApiPilpres');
+const FetchApiPilegDpr = require('../services/fetchapi/FetchApiPilegDpr');
 const HasilPemiluTpsRepository = require('../services/database/HasilPemiluTpsRepository');
-const HasilPemiluCapresRepository = require('../services/database/HasilPemiluCapresRepository');
+const HasilPemiluParpolRepository = require('../services/database/HasilPemiluParpolRepository');
 
 /* create instance */
 const fetchApiWilayah = new FetchApiWilayah(axios);
-const fetchApiPilpres = new FetchApiPilpres(axios);
+const fetchApiPilegDpr = new FetchApiPilegDpr(axios);
 const hasilPemiluTpsRepository = new HasilPemiluTpsRepository(pool);
-const hasilPemiluCapresRepository = new HasilPemiluCapresRepository(pool);
+const hasilPemiluParpolRepository = new HasilPemiluParpolRepository(pool);
 
 
 const processTps = async ({
@@ -21,15 +21,15 @@ const processTps = async ({
   kelurahanId, kelurahanName,
   tpsId, tpsName,
 }) => {
-  const hasilPemiluTps = await fetchApiPilpres.getHasilPilpres(
-    'hhcw', `${provinsiId}/${kabupatenId}/${kecamatanId}/${kelurahanId}/${tpsId}`,
-  );
+  const kodeLokasi = `${provinsiId}/${kabupatenId}/${kecamatanId}/${kelurahanId}/${tpsId}`;
+  // todo: fetch api
+  const hasilPemiluTps = await fetchApiPilegDpr.getHasilPilleg(kodeLokasi);
 
   const kodeWilayahKpu = `${provinsiId}.${kabupatenId}.${kecamatanId}.${kelurahanId}`;
 
   // todo: menambahkan ke tabel hasil pemilu tps
   await hasilPemiluTpsRepository.addHasilPemiluTps({
-    idPemilu: 1, /* pilpres 2019 */
+    idPemilu: 2, /* pileg dprri 2019 */
     // kodeWilayah, /* kode wilayah mendagri */
     kodeWilayahKpu,
     kodeTps: tpsId,
@@ -40,18 +40,19 @@ const processTps = async ({
     jmlSuaraTdkSah: hasilPemiluTps['suara_tidak_sah'],
   });
 
-  // todo: revisi input suara
+  // todo: getId tabel hasil_pemilu_tps
   const { id: pemiluTpsId } = await hasilPemiluTpsRepository.getIdHasilPemiluTps({
-    pemiluId: 1, /* pilpres 2019 */
+    pemiluId: 2, /* pileg dprri 2019 */
     kodeWilayahKpu,
     kodeTps: tpsId,
   });
 
   for (key in hasilPemiluTps.chart) {
     if (hasilPemiluTps.chart.hasOwnProperty(key)) {
-      await hasilPemiluCapresRepository.addHasilPemiluCapres({
+      // todo: add hasil_pemilu_parpol
+      await hasilPemiluParpolRepository.addHasilPemiluParpol({
         idHasilPemiluTps: pemiluTpsId,
-        idPemiluCapres: key,
+        idPemiluParpol: key, // id pemilu_parpol
         jumlahSuaraSah: hasilPemiluTps.chart[key],
       });
     }
@@ -59,7 +60,7 @@ const processTps = async ({
 
   /* loging */
   console.log(
-    'Berhasil add-pilpres 2019:',
+    'Berhasil add-pileg dpr-ri 2019:',
     'prov.', provinsiName,
     '- kab.', kabupatenName,
     '- kec.', kecamatanName,
@@ -145,18 +146,18 @@ const main = async () => {
     }
   }
 
-  console.log('SEMUA DATA PILPRES 2019 BERHASIL DITAMBAHKAN!!');
+  console.log('SEMUA DATA PILLEG DPR-RI 2019 BERHASIL DITAMBAHKAN!!');
 };
 
 
-main();
+// main();
 
-// processKelurahan({
-//   provinsiId: '26141', provinsiName: 'JawaBarat',
-//   kabupatenId: '27714', kabupatenName: 'Garut',
-//   kecamatanId: '27715', kecamatanName: 'Garut Kota',
-//   kelurahanId: '27718', kelurahanName: 'Margawati',
-// });
+processKelurahan({
+  provinsiId: '26141', provinsiName: 'JawaBarat',
+  kabupatenId: '27714', kabupatenName: 'Garut',
+  kecamatanId: '27715', kecamatanName: 'Garut Kota',
+  kelurahanId: '27718', kelurahanName: 'Margawati',
+});
 
 // const kabupatenId = '26141'; // Jawabarat
 // const kabupatenId = '27714'; // Garut

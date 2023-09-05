@@ -3,7 +3,7 @@ class HasilPemiluParpolRepository {
     this._pool = pool;
   }
 
-  async addHasilPemiluCapres(idHasilPemiluTps, idPemiluParpol, jumlahSuaraSah) {
+  async addHasilPemiluParpol({ idHasilPemiluTps, idPemiluParpol, jumlahSuaraSah }) {
     const query = {
       sql: `INSERT INTO hasil_pemilu_parpol(hasil_pemilu_tps_id, pemilu_parpol_id, jml_suara_sah) 
         VALUES(?, ?, ?)`,

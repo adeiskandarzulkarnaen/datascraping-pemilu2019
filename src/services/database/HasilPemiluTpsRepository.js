@@ -31,11 +31,11 @@ class HasilPemiluTpsRepository {
     await this._pool.query(query);
   }
 
-  async getHasilPemiluTpsByKodeWilayahKpuAndKodeTps({ kodeWilayahKpu, kodeTps }) {
+  async getIdHasilPemiluTps({ pemiluId, kodeWilayahKpu, kodeTps }) {
     const query = {
       sql: `SELECT * FROM hasil_pemilu_tps 
-        WHERE kode_wilayah_kpu = ? AND kode_tps = ?`,
-      values: [kodeWilayahKpu, kodeTps],
+        WHERE pemilu_id = ? AND kode_wilayah_kpu = ? AND kode_tps = ?`,
+      values: [pemiluId, kodeWilayahKpu, kodeTps],
     };
 
     const [rows] = await this._pool.query(query);

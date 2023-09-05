@@ -13,7 +13,7 @@ class FetchApiPilpres {
     }
   }
 
-  async getHasilPilpres(typeHasil, kodeLokasi=null) {
+  async getHasilPilpres(typeHasil='hhcw', kodeLokasi=null) {
   /* Parameter typeHasil
     * Gunakan 'hhcw' untuk Hitung Hasil Caleg Wilayah
     * Gunakan 'hr' untuk Hasil Rekapitulasi; // () => hanya sampai tingkat kelurahan
@@ -30,15 +30,12 @@ class FetchApiPilpres {
     */
 
     this._typeHasilValidator(typeHasil);
+    const locationCode = (kodeLokasi) ? `ppwp/${kodeLokasi}` : 'ppwp';
 
     let success;
     while (!success) {
       try {
-        if (!kodeLokasi) {
-          const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp.json`);
-          return data;
-        }
-        const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/ppwp/${kodeLokasi}.json`);
+        const { data } = await this._axios.get(`${this._baseUrl}/${typeHasil}/${locationCode}.json`);
         return data;
       } catch (error) {
         console.log('request gagal:', error.message);
