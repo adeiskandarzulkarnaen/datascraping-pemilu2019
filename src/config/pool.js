@@ -6,7 +6,6 @@ const pool = mysql.createPool({
   user: 'sqlyoguser',
   password: 'password',
   database: 'indovoters',
-  // database: 'dbtesting',
   debug: false,
 });
 

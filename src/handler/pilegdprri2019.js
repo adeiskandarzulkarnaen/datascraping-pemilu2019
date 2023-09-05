@@ -22,12 +22,12 @@ const processTps = async ({
   tpsId, tpsName,
 }) => {
   const kodeLokasi = `${provinsiId}/${kabupatenId}/${kecamatanId}/${kelurahanId}/${tpsId}`;
-  // todo: fetch api
-  const hasilPemiluTps = await fetchApiPilegDpr.getHasilPilleg(kodeLokasi);
+
+  const hasilPemiluTps = await fetchApiPilegDpr.getHasilHitungSuara(kodeLokasi); /* fetch api */
 
   const kodeWilayahKpu = `${provinsiId}.${kabupatenId}.${kecamatanId}.${kelurahanId}`;
 
-  // todo: menambahkan ke tabel hasil pemilu tps
+  /* menambahkan ke tabel hasil_pemilu_tps */
   await hasilPemiluTpsRepository.addHasilPemiluTps({
     idPemilu: 2, /* pileg dprri 2019 */
     // kodeWilayah, /* kode wilayah mendagri */
@@ -40,7 +40,7 @@ const processTps = async ({
     jmlSuaraTdkSah: hasilPemiluTps['suara_tidak_sah'],
   });
 
-  // todo: getId tabel hasil_pemilu_tps
+  /* getId tabel hasil_pemilu_tps */
   const { id: pemiluTpsId } = await hasilPemiluTpsRepository.getIdHasilPemiluTps({
     pemiluId: 2, /* pileg dprri 2019 */
     kodeWilayahKpu,
@@ -49,7 +49,7 @@ const processTps = async ({
 
   for (key in hasilPemiluTps.chart) {
     if (hasilPemiluTps.chart.hasOwnProperty(key)) {
-      // todo: add hasil_pemilu_parpol
+      /* add hasil_pemilu_parpol */
       await hasilPemiluParpolRepository.addHasilPemiluParpol({
         idHasilPemiluTps: pemiluTpsId,
         idPemiluParpol: key, // id pemilu_parpol
@@ -150,17 +150,12 @@ const main = async () => {
 };
 
 
-// main();
+main();
 
-processKelurahan({
-  provinsiId: '26141', provinsiName: 'JawaBarat',
-  kabupatenId: '27714', kabupatenName: 'Garut',
-  kecamatanId: '27715', kecamatanName: 'Garut Kota',
-  kelurahanId: '27718', kelurahanName: 'Margawati',
-});
 
 // const kabupatenId = '26141'; // Jawabarat
 // const kabupatenId = '27714'; // Garut
 // const kecamatanId = '27715'; // Garut Kota
 // const kelurahanId = '27718'; // Margawati
 // const kodeTps = '900228437'; // Tps 01
+

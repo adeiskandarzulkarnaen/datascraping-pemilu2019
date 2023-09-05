@@ -34,7 +34,7 @@ class FetchApiPilegDpr {
   }
 
   /* =========================================================================== */
-  async getHasilPilleg(kodeLokasi=null) {
+  async getHasilHitungSuara(kodeLokasi=null) {
     /* Parameter kodeLokasi
     * default => return tingkat nasional
     * untuk detail provinsi => 'kodeProvinsi'

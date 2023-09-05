@@ -14,4 +14,3 @@ class PemiluCapresRepository {
 }
 
 module.exports = PemiluCapresRepository;
-
