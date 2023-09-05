@@ -5,8 +5,8 @@ const pool = mysql.createPool({
   port: 3306,
   user: 'sqlyoguser',
   password: 'password',
-  // database: 'indovoters_dev',
-  database: 'dbtesting',
+  database: 'indovoters',
+  // database: 'dbtesting',
   debug: false,
 });
 

@@ -1,12 +1,3 @@
-const { existsSync, mkdirSync } = require('fs');
-const { writeFile } = require('fs/promises');
-
-
-const createLogFile = async (dir, fileName, logData) => {
-  if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-  await writeFile(`${dir}/${fileName}.json`, JSON.stringify(logData, null, 2));
-};
-
 class WilayahRepository {
   constructor(pool) {
     this._pool = pool;

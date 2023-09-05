@@ -4,9 +4,10 @@ class HasilPemiluTpsRepository {
   }
 
   async addHasilPemiluTps({
-    id,
     idPemilu,
-    kodeWilayah,
+    kodeWilayah=null,
+    kodeWilayahKpu,
+    kodeTps,
     namaTps,
     pemilihTerdaftar,
     penggunaHakPilih,
@@ -15,18 +16,30 @@ class HasilPemiluTpsRepository {
   }) {
     const query = {
       sql: `INSERT INTO hasil_pemilu_tps(
-          id,
           pemilu_id, 
-          kode_wilayah, 
+          kode_wilayah,
+          kode_wilayah_kpu,
+          kode_tps,
           no_tps, 
           pemilih_terdaftar_dpt, 
           pengguna_hak_pilih, 
           jml_suara_sah, 
           jml_suara_tdk_sah) 
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
-      values: [id, idPemilu, kodeWilayah, namaTps, pemilihTerdaftar, penggunaHakPilih, jmlSuaraSah, jmlSuaraTdkSah],
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      values: [idPemilu, kodeWilayah, kodeWilayahKpu, kodeTps, namaTps, pemilihTerdaftar, penggunaHakPilih, jmlSuaraSah, jmlSuaraTdkSah],
     };
     await this._pool.query(query);
+  }
+
+  async getHasilPemiluTpsByKodeWilayahKpuAndKodeTps({ kodeWilayahKpu, kodeTps }) {
+    const query = {
+      sql: `SELECT * FROM hasil_pemilu_tps 
+        WHERE kode_wilayah_kpu = ? AND kode_tps = ?`,
+      values: [kodeWilayahKpu, kodeTps],
+    };
+
+    const [rows] = await this._pool.query(query);
+    return rows[0];
   }
 };
 
