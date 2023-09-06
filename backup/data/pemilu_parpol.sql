@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS `pemilu_parpol`;
 
+
 CREATE TABLE `pemilu_parpol` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pemilu_id` int NOT NULL,
