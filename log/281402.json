@@ -1,0 +1,20 @@
+[
+  {
+    "type": "data tidak ditemukan",
+    "data": {
+      "tabel_wilayah": {
+        "id": 281841,
+        "kode": "32.05.null",
+        "kode_wilayah_kpu": "26141.27714.28136",
+        "nama": "BL. LIMBANGAN",
+        "tingkat_wilayah": 3,
+        "is_delete": 0,
+        "created_at": null,
+        "updated_at": null,
+        "created_by": null,
+        "updated_by": null
+      },
+      "tabel_wilayah_mendagri": []
+    }
+  }
+]
