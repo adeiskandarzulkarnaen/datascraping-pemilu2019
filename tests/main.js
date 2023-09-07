@@ -10,19 +10,12 @@ const wilayahRepository = new WilayahRepository(pool);
 const wilayahMendagriRepository = new WilayahMendagriRepository(pool);
 
 
-const processKabupaten = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
-  /* Penjelasan Paramaeter
-   * idWilayah      : column 'id' pada tabel 'wilayah'
-   * kodeMendagri   : column 'kode_wilayah' pada tabel 'wilayah'
-   * kodeKpu        : column 'kode_wilayah_kpu' pada tabel 'wilayah'
-   * tingkatWilayah : column 'tingkat_wilayah' pada tabel 'wilayah'
-   */
-
-  // Update table-data
+const main = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
   await wilayahRepository.editAllWilayahWhichContainKodeKpu(kodeKpu, {
     kodeMendagri, addPrefixNull: true,
   });
   await wilayahRepository.editWilayahById(idWilayah, { kodeMendagri });
+
 
   const listWilayah = await wilayahRepository.getListWilayahByKodeMendagri(kodeMendagri, {
     tingkatWilayah: tingkatWilayah + 1,
@@ -30,40 +23,46 @@ const processKabupaten = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilay
   });
 
   const logError = [];
+  // todo: ini dari tabel "wilayah"
   for (const wilayah of listWilayah) {
-    // Base wilayah
-    const { id,
-      nama: namaWilayah,
-      kode: kodeWilayahMendagri,
-      kode_wilayah_kpu: kodeWilayahKpu,
-      tingkat_wilayah: tingkat,
-    } = wilayah; // BASE WILAYAH
+    const { id, kode_wilayah_kpu, nama: namaWill, tingkat_wilayah } = wilayah;
 
-    // Mendagri wilayah
-    const result = await wilayahMendagriRepository.getWilayahWhichContainName(namaWilayah, tingkat);
+
+    // todo: search 'kode' dari tabel 'wilayah_mendagri'
+    const result = await wilayahMendagriRepository.getWilayahWhichContainName({
+      nama: namaWill,
+      tingkat: tingkat_wilayah,
+      kode: kodeMendagri,
+    });
+
 
     if (result.length == 1) {
-      const { code: kodeMendagriNew } = result[0];
-      await wilayahRepository.editAllWilayahWhichContainKodeKpu(kodeWilayahKpu, {
-        kodeMendagri: kodeMendagriNew, addPrefixNull: true,
+      const { kode } = result[0];
+      await wilayahRepository.editAllWilayahWhichContainKodeKpu(kode_wilayah_kpu, {
+        kodeMendagri: kode, addPrefixNull: true,
       });
-      await wilayahRepository.editWilayahById(id, { kodeMendagri: kodeMendagriNew });
-      console.log('add data wilayah success:', namaWilayah);
+      await wilayahRepository.editWilayahById(id, { kodeMendagri: kode });
+      console.log('success: add data wilayah ', namaWill);
       continue;
     }
 
+    console.log('failed :', kode_wilayah_kpu, namaWill);
     logError.push({
-      idWilayah: id,
-      data: result,
+      type: (result.length >= 2) ? 'data dupilikat' : 'data tidak ditemukan',
+      data: {
+        tabel_wilayah: wilayah,
+        tabel_wilayah_mendagri: result,
+      },
     });
   }
 
+
   if (logError.length) await createLogFile.execute('./log', idWilayah, logError);
-  console.log('Semua Data berhasil ditambahkan');
+  console.log('Done');
 };
 
-processKabupaten(281402, {
+main('281402', {
   kodeKpu: '26141.27714',
-  kodeMendagri: 32.05,
+  kodeMendagri: '32.05',
   tingkatWilayah: 2,
 });

@@ -22,11 +22,11 @@ class WilayahRepository {
   }
 
   async getListWilayahByKodeMendagri(kodeMendagri, { tingkatWilayah, containPrefixNull=false }) {
-    const kodeWilayah = containPrefixNull ? `${kodeMendagri}.null` : kodeMendagri;
+    const kode = containPrefixNull ? `${kodeMendagri}.null` : kodeMendagri;
 
     const query = {
       sql: 'SELECT * FROM wilayah WHERE kode = ? AND tingkat_wilayah = ?',
-      values: [kodeWilayah, tingkatWilayah],
+      values: [kode, tingkatWilayah],
     };
 
     const [rows] = await this._pool.query(query);
