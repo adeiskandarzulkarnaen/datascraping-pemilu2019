@@ -10,11 +10,12 @@ const wilayahRepository = new WilayahRepository(pool);
 const wilayahMendagriRepository = new WilayahMendagriRepository(pool);
 
 
-const main = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
-  /* EDIT WILAYAH */
+const processWilayah = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
+  /* UPDATE COLUMN KODE PADA TABEL WILAYAH */
   await wilayahRepository.editAllWilayahWhichContainKodeKpu(kodeKpu, {
     kodeMendagri, addPrefixNull: true,
   });
+
   await wilayahRepository.editWilayahById(idWilayah, { kodeMendagri });
 
   /* AMBIL LIST-DATA 1 TINGKAT DI BAWAHNYA */
@@ -26,12 +27,17 @@ const main = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
   /* PROCESS LIST WILAYAH */
   const logError = [];
   for (const wilayah of listWilayah) {
-    const { id, kode_wilayah_kpu, nama: namaWill, tingkat_wilayah } = wilayah;
+    const {
+      id,
+      kode_wilayah_kpu: kodeWilayahKpu,
+      nama: namaWilayah,
+      tingkat_wilayah: tingkatWilayah,
+    } = wilayah;
 
     /* CEK KETERSEDIAN DARI TABEL WILAYAH_MENDAGRI */
     const result = await wilayahMendagriRepository.getWilayahWhichContainName({
-      nama: namaWill,
-      tingkat: tingkat_wilayah,
+      nama: namaWilayah,
+      tingkat: tingkatWilayah,
       kode: kodeMendagri,
     });
 
@@ -39,25 +45,26 @@ const main = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
     if (result.length == 1) {
       const { kode } = result[0];
 
-      // await processWilayah(id, {
-      //   kodeKpu: kode_wilayah_kpu,
-      //   kodeMendagri: kode,
-      //   tingkatWilayah: tingkat_wilayah,
-      // })
+      if (tingkatWilayah <= 4) {
+        await processWilayah(id, {
+          kodeKpu: kodeWilayahKpu,
+          kodeMendagri: kode,
+          tingkatWilayah: tingkatWilayah,
+        });
+        console.log('success:', namaWilayah, '-tingkat', tingkatWilayah);
+        continue;
+      }
 
       /* LOOPING KEDUA */
-      await wilayahRepository.editAllWilayahWhichContainKodeKpu(kode_wilayah_kpu, {
-        kodeMendagri: kode, addPrefixNull: true,
+      await wilayahRepository.editAllWilayahWhichContainKodeKpu(kodeWilayahKpu, {
+        kodeMendagri: kode, addPrefixNull: false,
       });
       await wilayahRepository.editWilayahById(id, { kodeMendagri: kode });
-
-      /* AMBIL LIST 1 TINGKAT DI BAWAHNYA */
-
-      console.log('success: add data wilayah ', namaWill);
+      console.log('success:', namaWilayah, '-tingkat', tingkatWilayah);
       continue;
     }
 
-    console.log('failed :', kode_wilayah_kpu, namaWill);
+    console.log('failed :', kodeWilayahKpu, namaWilayah);
     logError.push({
       type: (result.length >= 2) ? 'data dupilikat' : 'data tidak ditemukan',
       data: {
@@ -69,12 +76,16 @@ const main = async (idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) => {
 
   /* LOG HASIL PROCESS LIST WILAYAH */
   if (logError.length) await createLogFile.execute('./log', idWilayah, logError);
-  console.log('Done');
 };
 
 
-main('281402', {
-  kodeKpu: '26141.27714',
-  kodeMendagri: '32.05',
-  tingkatWilayah: 2,
-});
+const main = async () => {
+  await processWilayah('281402', {
+    kodeKpu: '26141.27714',
+    kodeMendagri: '32.05',
+    tingkatWilayah: 2,
+  });
+  console.log('sync wilayah selesai');
+};
+
+main();

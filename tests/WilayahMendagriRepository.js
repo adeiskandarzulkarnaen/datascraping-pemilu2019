@@ -23,7 +23,7 @@ class WilayahMendagriRepository {
           UPPER(nama) LIKE UPPER(?) AND 
           kode LIKE ? AND
           tingkat_wilayah = ? `,
-      values: [`%${nama}%`, `${kode}%`, tingkat],
+      values: [`${nama}`, `${kode}%`, tingkat],
     };
     const [rows] = await this._pool.query(query);
     return rows;
