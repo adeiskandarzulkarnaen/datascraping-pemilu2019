@@ -1,0 +1,20 @@
+[
+  {
+    "type": "data tidak ditemukan",
+    "data": {
+      "tabel_wilayah": {
+        "id": 281654,
+        "kode": "32.05.19.null",
+        "kode_wilayah_kpu": "26141.27714.27946.27961",
+        "nama": "MANGKURAKYAT",
+        "tingkat_wilayah": 4,
+        "is_delete": 0,
+        "created_at": null,
+        "updated_at": null,
+        "created_by": null,
+        "updated_by": null
+      },
+      "tabel_wilayah_mendagri": []
+    }
+  }
+]

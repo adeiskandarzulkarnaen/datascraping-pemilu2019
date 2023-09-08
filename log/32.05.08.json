@@ -3,11 +3,11 @@
     "type": "data tidak ditemukan",
     "data": {
       "tabel_wilayah": {
-        "id": 281841,
-        "kode": "32.05.null",
-        "kode_wilayah_kpu": "26141.27714.28136",
-        "nama": "BL. LIMBANGAN",
-        "tingkat_wilayah": 3,
+        "id": 281508,
+        "kode": "32.05.08.null",
+        "kode_wilayah_kpu": "26141.27714.27813.27818",
+        "nama": "PADAAWAS",
+        "tingkat_wilayah": 4,
         "is_delete": 0,
         "created_at": null,
         "updated_at": null,
