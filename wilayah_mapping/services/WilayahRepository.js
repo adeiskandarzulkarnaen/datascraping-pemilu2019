@@ -32,6 +32,23 @@ class WilayahRepository {
     const [rows] = await this._pool.query(query);
     return rows;
   }
+
+  async editWilayahNameById(id, nama) {
+    const query = {
+      sql: `UPDATE wilayah SET nama = ? WHERE id = ?`,
+      values: [nama, id],
+    };
+    await this._pool.query(query);
+  }
+
+  async getNameById(id) {
+    const query = {
+      sql: 'SELECT nama FROM wilayah WHERE id = ?',
+      values: [id],
+    };
+    const [rows] = await this._pool.query(query);
+    return rows[0];
+  }
 };
 
 module.exports = WilayahRepository;

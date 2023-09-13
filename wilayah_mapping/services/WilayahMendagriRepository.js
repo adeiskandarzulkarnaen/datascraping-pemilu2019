@@ -20,10 +20,28 @@ class WilayahMendagriRepository {
     const query = {
       sql: `SELECT * FROM wilayah_mendagri 
         WHERE 
-          UPPER(nama) LIKE UPPER(?) AND 
+          UPPER(REPLACE(nama, ' ', '')) LIKE UPPER(REPLACE(?, ' ', '')) AND 
           kode LIKE ? AND
           tingkat_wilayah = ? `,
-      values: [`${nama}`, `${kode}%`, tingkat],
+      values: [`%${nama}%`, `${kode}%`, tingkat],
+    };
+    const [rows] = await this._pool.query(query);
+    return rows;
+  }
+
+  async getWilayahByName({ nama, kode, tingkat }) {
+    /* Penjelasan Parameter
+     * nama : column "nama" pada tabel wilayah..
+     * kode : column "kode" pada tabel wilayah..
+     * tingkat : column "tingkat_wilayah" pada tabel wilayah..
+    */
+    const query = {
+      sql: `SELECT * FROM wilayah_mendagri 
+        WHERE 
+          UPPER(REPLACE(nama, ' ', '')) = UPPER(REPLACE(?, ' ', '')) AND 
+          kode LIKE ? AND
+          tingkat_wilayah = ? `,
+      values: [nama, `${kode}%`, tingkat],
     };
     const [rows] = await this._pool.query(query);
     return rows;

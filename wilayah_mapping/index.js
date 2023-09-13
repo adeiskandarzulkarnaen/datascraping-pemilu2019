@@ -1,11 +1,11 @@
 const fs = require('fs');
-const pool = require('./tests/pool');
+const pool = require('./config/pool');
 
-const CreateLogFile = require('./tests/CreateLogFile');
-const WilayahRepository = require('./tests/WilayahRepository');
-const WilayahMendagriRepository = require('./tests/WilayahMendagriRepository');
+const CreateLogFile = require('./services/CreateLogFile');
+const WilayahRepository = require('./services/WilayahRepository');
+const WilayahMendagriRepository = require('./services/WilayahMendagriRepository');
 
-const ProcessWilayah = require('./tests/ProcessWilayah');
+const ProcessWilayah = require('./services/ProcessWilayah');
 
 const createLogFile = new CreateLogFile(fs);
 const wilayahRepository = new WilayahRepository(pool);
@@ -14,13 +14,12 @@ const wilayahMendagriRepository = new WilayahMendagriRepository(pool);
 const processWilayah = new ProcessWilayah(createLogFile, wilayahRepository, wilayahMendagriRepository);
 
 const main = async () => {
-  await processWilayah.execute('281402', {
-    kodeKpu: '26141.27714',
-    kodeMendagri: '32.05',
-    tingkatWilayah: 2,
+  await processWilayah.execute('279786', {
+    kodeKpu: '26141',
+    kodeMendagri: '32',
+    tingkatWilayah: 1,
   });
-  console.log('BERES KABEH');
+  console.log('JAWABARAT BERES KABEH');
 };
-
 
 main();

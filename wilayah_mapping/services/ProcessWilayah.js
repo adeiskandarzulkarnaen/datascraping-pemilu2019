@@ -9,9 +9,10 @@ class ProcessWilayah {
   async execute(idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) {
     if (tingkatWilayah >= this.maxTingkatWilayah) {
       await this._wilayahRepository.editWilayahById(idWilayah, { kodeMendagri });
-      return;
+      // return;
+    } else {
+      await this._processWilayah(idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah });
     }
-    await this._processWilayah(idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah });
   }
 
   async _processWilayah(idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah }) {
@@ -19,7 +20,7 @@ class ProcessWilayah {
       kodeMendagri, addPrefixNull: true,
     });
     await this._wilayahRepository.editWilayahById(idWilayah, { kodeMendagri });
-    console.log('success:', 'tingkat', tingkatWilayah, '|| UPDATED' );
+    console.log('success:', 'tingkat', tingkatWilayah, '|| ====== FINISH UPDATE ======');
 
     /* PROCESS CHILD WILAYAH */
     await this._processChildWilayah(kodeMendagri, tingkatWilayah + 1); // todo : err
@@ -27,20 +28,20 @@ class ProcessWilayah {
 
   async _processChildWilayah(kodeMendagri, tingkatWilayah) {
     const listWilayah = await this._wilayahRepository.getListWilayahByKodeMendagri(kodeMendagri, {
-      tingkatWilayah, containPrefixNull: true, // tingkat +1
+      tingkatWilayah, containPrefixNull: true,
     });
 
     const logError = [];
     for (const wilayah of listWilayah) {
       const { id, kode_wilayah_kpu: kodeKpu, nama: namaWilayah, tingkat_wilayah: tingkatWilayah } = wilayah;
 
-      const searchResultTableMendagri = await this._wilayahMendagriRepository.getWilayahWhichContainName({
+      const searchResultTableMendagri = await this._wilayahMendagriRepository.getWilayahByName({
         nama: namaWilayah,
         tingkat: tingkatWilayah,
         kode: kodeMendagri,
       });
 
-      if (searchResultTableMendagri.length === 1) {
+      if (searchResultTableMendagri.length == 1) {
         const { kode } = searchResultTableMendagri[0];
         await this.execute(id, { kodeKpu, kodeMendagri: kode, tingkatWilayah });
 
@@ -51,7 +52,13 @@ class ProcessWilayah {
       console.log('failed :', 'tingkat', tingkatWilayah, '||', namaWilayah );
       logError.push({
         type: (searchResultTableMendagri.length >= 2) ? 'data dupilikat' : 'data tidak ditemukan',
-        data: {
+        query: {
+          table_wilayah: `SELECT * FROM wilayah WHERE kode_wilayah_kpu = '${kodeKpu}'`,
+          edit: `UPDATE wilayah SET nama = '?', kode = '?' WHERE kode_wilayah_kpu = '${kodeKpu}'`,
+          view_mendagri: `SELECT * FROM wilayah_mendagri WHERE kode LIKE '${kodeMendagri}%' AND tingkat_wilayah = ${tingkatWilayah}`,
+          edit_mendagri: `UPDATE wilayah_mendagri SET nama = '${namaWilayah}' WHERE id = ?`,
+        },
+        detail: {
           tabel_wilayah: wilayah,
           tabel_wilayah_mendagri: searchResultTableMendagri,
         },

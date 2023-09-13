@@ -1,0 +1,28 @@
+
+
+.execute(idWilayah, { kodeKpu, kodeMendagri, tingkatWilayah })
+// idWilayah: "id" di tabel wilayah
+// kodeKpu: "kode_wilayah_kpu" di tabel wilayah
+// kode mendagri: "kode" di tabel wilayah_medagri
+// tingkat wilayah
+
+
+
+const main = async () => {
+  await processWilayah.execute('281402', {
+    kodeKpu: '26141.27714',
+    kodeMendagri: '32.05',
+    tingkatWilayah: 2,
+  });
+  console.log('GARUT BERES KABEH');
+};
+
+
+const main = async () => {
+  await processWilayah.execute('279787', {
+    kodeKpu: '26141.26142',
+    kodeMendagri: '32.01',
+    tingkatWilayah: 2,
+  });
+  console.log('BOGOR BERES KABEH');
+};
