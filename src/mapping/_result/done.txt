@@ -6,3 +6,21 @@ const main = async () => {
   });
   console.log('JAWABARAT BERES KABEH');
 };
+
+const main = async () => {
+  await processWilayah.execute('279468', {
+    kodeKpu: '25823',
+    kodeMendagri: '31',
+    tingkatWilayah: 1,
+  });
+  console.log('DKI JAKARTA BERES KABEH');
+};
+
+const main = async () => {
+  await processWilayah.execute('305290', {
+    kodeKpu: '51578',
+    kodeMendagri: '36',
+    tingkatWilayah: 1,
+  });
+  console.log('BANTEN BERES KABEH');
+};
