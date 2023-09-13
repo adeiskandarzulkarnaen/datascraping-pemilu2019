@@ -1,3 +1,9 @@
+/*
+MySQL - 8.0.33 : Update table wilayah
+Run this SQL manual to fix missing data in column wilayah
+*********************************************************************
+*/
+
 UPDATE wilayah SET kode = '32.02.28.2007' WHERE kode_wilayah_kpu = '26141.26611.26861.26868';
 UPDATE wilayah SET kode = '32.02.32.2002', nama = 'SUNDAJAYA GIRANG' WHERE kode_wilayah_kpu = '26141.26611.26903.26905';
 UPDATE wilayah SET kode = '32.02.33.2002' WHERE kode_wilayah_kpu = '26141.26611.26910.26912';
@@ -42,9 +48,7 @@ UPDATE wilayah SET kode = '32.12.13.2014' WHERE kode_wilayah_kpu = '26141.30503.
 UPDATE wilayah SET kode = '32.12.13.2015' WHERE kode_wilayah_kpu = '26141.30503.30642.30657';
 UPDATE wilayah SET kode = '32.12.24.2004' WHERE kode_wilayah_kpu = '26141.30503.30779.30783';
 UPDATE wilayah SET kode = '32.12.25.2006' WHERE kode_wilayah_kpu = '26141.30503.30788.30794';
-
 UPDATE wilayah SET kode = '32.12.26', nama = 'TRISI' WHERE kode_wilayah_kpu = '26141.30503.30795';
-
 UPDATE wilayah SET kode = '32.13.06.2003' WHERE kode_wilayah_kpu = '26141.30851.30899.30901';
 UPDATE wilayah SET kode = '32.13.07.2011' WHERE kode_wilayah_kpu = '26141.30851.30910.30913';
 UPDATE wilayah SET kode = '32.13.20.2001', nama = 'KARYAMUKTI' WHERE kode_wilayah_kpu = '26141.30851.31037.31038';
