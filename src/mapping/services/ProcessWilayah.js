@@ -54,7 +54,7 @@ class ProcessWilayah {
         type: (searchResultTableMendagri.length >= 2) ? 'data dupilikat' : 'data tidak ditemukan',
         query: {
           table_wilayah: `SELECT * FROM wilayah WHERE kode_wilayah_kpu = '${kodeKpu}'`,
-          edit: `UPDATE wilayah SET nama = '?', kode = '?' WHERE kode_wilayah_kpu = '${kodeKpu}'`,
+          edit: `UPDATE wilayah SET kode = '?' WHERE kode_wilayah_kpu = '${kodeKpu}'`,
           view_mendagri: `SELECT * FROM wilayah_mendagri WHERE kode LIKE '${kodeMendagri}%' AND tingkat_wilayah = ${tingkatWilayah}`,
           edit_mendagri: `UPDATE wilayah_mendagri SET nama = '${namaWilayah}' WHERE id = ?`,
         },
