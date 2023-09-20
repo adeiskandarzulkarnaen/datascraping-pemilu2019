@@ -16,6 +16,14 @@ const main = async () => {
   console.log('JAWABARAT BERES KABEH');
 };
 
+const main = async () => {
+  await processWilayah.execute('286398', {
+    kodeKpu: '32676',
+    kodeMendagri: '33',
+    tingkatWilayah: 1,
+  });
+  console.log('JAWA TENGAH BERES KABEH');
+};
 
 const main = async () => {
   await processWilayah.execute('295566', {
@@ -34,3 +42,4 @@ const main = async () => {
   });
   console.log('BANTEN BERES KABEH');
 };
+

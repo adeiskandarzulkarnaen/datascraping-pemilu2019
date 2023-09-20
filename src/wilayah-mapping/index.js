@@ -14,12 +14,12 @@ const wilayahMendagriRepository = new WilayahMendagriRepository(pool);
 const processWilayah = new ProcessWilayah(createLogFile, wilayahRepository, wilayahMendagriRepository);
 
 const main = async () => {
-  await processWilayah.execute('286398', {
-    kodeKpu: '32676',
-    kodeMendagri: '33',
+  await processWilayah.execute('279468', {
+    kodeKpu: '25823',
+    kodeMendagri: '31',
     tingkatWilayah: 1,
   });
-  console.log('JAWA TENGAH BERES KABEH');
+  console.log('DKI JAKARTA BERES KABEH');
 };
 
 main();

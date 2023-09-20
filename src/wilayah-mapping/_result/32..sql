@@ -4,9 +4,18 @@ Run this SQL manual to fix missing data in column wilayah
 *********************************************************************
 */
 
+UPDATE wilayah SET kode = '32' WHERE kode_wilayah_kpu = '26141';
+UPDATE wilayah_mendagri SET nama = 'PELABUHAN RATU' WHERE kode = '32.02.01';
+UPDATE wilayah SET kode = '32.05.38', nama = 'LIMBANGAN' WHERE kode_wilayah_kpu = '26141.27714.28136';
 UPDATE wilayah SET kode = '32.12.26', nama = 'TRISI' WHERE kode_wilayah_kpu = '26141.30503.30795';
-UPDATE wilayah SET kode = '32.12.05.2006' WHERE kode_wilayah_kpu = '26141.30503.30544.30550';
 
+
+UPDATE wilayah SET kode = '32.01.26.2006' WHERE kode_wilayah_kpu = '26141.26142.26460.26466';
+UPDATE wilayah SET kode = '32.01.27.2010' WHERE kode_wilayah_kpu = '26141.26142.26472.26482';
+UPDATE wilayah SET kode = '32.01.33.2008' WHERE kode_wilayah_kpu = '26141.26142.26537.26545';
+UPDATE wilayah SET kode = '32.02.01.1001' WHERE kode_wilayah_kpu = '26141.26611.26612.26613';
+UPDATE wilayah SET kode = '32.02.12.2012' WHERE kode_wilayah_kpu = '26141.26611.26720.26728';
+UPDATE wilayah SET kode = '32.02.14.2003' WHERE kode_wilayah_kpu = '26141.26611.26740.26743';
 UPDATE wilayah SET kode = '32.02.28.2007' WHERE kode_wilayah_kpu = '26141.26611.26861.26868';
 UPDATE wilayah SET kode = '32.02.32.2002', nama = 'SUNDAJAYA GIRANG' WHERE kode_wilayah_kpu = '26141.26611.26903.26905';
 UPDATE wilayah SET kode = '32.02.33.2002' WHERE kode_wilayah_kpu = '26141.26611.26910.26912';
@@ -15,6 +24,14 @@ UPDATE wilayah SET kode = '32.03.31.2004', nama = 'SUKATANI' WHERE kode_wilayah_
 UPDATE wilayah SET kode = '32.04.09.2002', nama = 'MARGAHAYU SELATAN' WHERE kode_wilayah_kpu = '26141.27407.27439.27442';
 UPDATE wilayah SET kode = '32.04.30.2003' WHERE kode_wilayah_kpu = '26141.27407.27581.27584';
 UPDATE wilayah SET kode = '32.04.36.2010' WHERE kode_wilayah_kpu = '26141.27407.27645.27655';
+UPDATE wilayah SET kode = '32.05.08.2005' WHERE kode_wilayah_kpu = '26141.27714.27813.27818';
+UPDATE wilayah SET kode = '32.05.14.2004' WHERE kode_wilayah_kpu = '26141.27714.27881.27885';
+UPDATE wilayah SET kode = '32.05.14.2005' WHERE kode_wilayah_kpu = '26141.27714.27881.27886';
+UPDATE wilayah SET kode = '32.05.19.2015' WHERE kode_wilayah_kpu = '26141.27714.27946.27961';
+UPDATE wilayah SET kode = '32.05.20.2003' WHERE kode_wilayah_kpu = '26141.27714.27965.27968';
+UPDATE wilayah SET kode = '32.05.20.2010' WHERE kode_wilayah_kpu = '26141.27714.27965.27975';
+UPDATE wilayah SET kode = '32.05.30.2004' WHERE kode_wilayah_kpu = '26141.27714.28067.28071';
+UPDATE wilayah SET kode = '32.05.41.2002' WHERE kode_wilayah_kpu = '26141.27714.28165.28167';
 UPDATE wilayah SET kode = '32.06.01.2004' WHERE kode_wilayah_kpu = '26141.28182.28183.28187';
 UPDATE wilayah SET kode = '32.06.24.2006' WHERE kode_wilayah_kpu = '26141.28182.28420.28426';
 UPDATE wilayah SET kode = '32.06.33.2002' WHERE kode_wilayah_kpu = '26141.28182.28508.28510';
@@ -43,6 +60,7 @@ UPDATE wilayah SET kode = '32.11.13.2004', nama = 'HAURGOMBONG' WHERE kode_wilay
 UPDATE wilayah SET kode = '32.12.01.2015', nama = 'SIDODADI' WHERE kode_wilayah_kpu = '26141.30503.30504.30513';
 UPDATE wilayah SET kode = '32.12.02.2006' WHERE kode_wilayah_kpu = '26141.30503.30515.30521';
 UPDATE wilayah SET kode = '32.12.04.2007' WHERE kode_wilayah_kpu = '26141.30503.30536.30541';
+UPDATE wilayah SET kode = '32.12.05.2006' WHERE kode_wilayah_kpu = '26141.30503.30544.30550';
 UPDATE wilayah SET kode = '32.12.11.2002', nama = 'SEGERAN' WHERE kode_wilayah_kpu = '26141.30503.30614.30616';
 UPDATE wilayah SET kode = '32.12.11.2005' WHERE kode_wilayah_kpu = '26141.30503.30614.30619';
 UPDATE wilayah SET kode = '32.12.11.2008' WHERE kode_wilayah_kpu = '26141.30503.30614.30622';

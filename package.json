@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "app": "node ./src/app.js"
+    "mapping:wilayah": "node ./src/wilayah-mapping/index.js"
   },
   "keywords": [],
   "author": "adeiskandarzulkarnaen",
