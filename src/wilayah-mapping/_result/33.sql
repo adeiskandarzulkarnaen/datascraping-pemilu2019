@@ -5,7 +5,9 @@ UPDATE wilayah SET kode = '33.04.02', nama = 'PURWOREJA KLAMPOK' WHERE kode_wila
 UPDATE wilayah SET kode = '33.04.04',  nama = 'PURWANEGARA' WHERE kode_wilayah_kpu = '32676.33603.33646';
 UPDATE wilayah SET kode = '33.19.02', nama = 'KOTA KUDUS' WHERE kode_wilayah_kpu = '32676.38564.38581';
 
-UPDATE wilayah SET kode = '33.02.22.2009' WHERE kode_wilayah_kpu = '32676.32986.33286.33295'
+
+UPDATE wilayah SET kode = '33' WHERE kode_wilayah_kpu = '32676';
+UPDATE wilayah SET kode = '33.02.22.2009' WHERE kode_wilayah_kpu = '32676.32986.33286.33295';
 UPDATE wilayah SET kode = '33.04.01.2005' WHERE kode_wilayah_kpu = '32676.33603.33604.33609';
 UPDATE wilayah SET kode = '33.04.01.2006' WHERE kode_wilayah_kpu = '32676.33603.33604.33610';
 UPDATE wilayah SET kode = '33.05.06.2018' WHERE kode_wilayah_kpu = '32676.33902.34014.34032';
