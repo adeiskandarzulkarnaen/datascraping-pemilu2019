@@ -1,0 +1,7 @@
+clean hasil_pemilu_tps JAWA tengah
+
+DELETE FROM hasil_pemilu_tps 
+WHERE WHERE `kode_wilayah_kpu` LIKE '32676%'
+
+
+clean
